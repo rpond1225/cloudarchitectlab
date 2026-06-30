@@ -1,46 +1,101 @@
-# Astro Starter Kit: Basics
+Cloud Architect Lab
 
-```sh
-npm create astro@latest -- --template basics
-```
+Project 0 – Portfolio Website & CI/CD Platform
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+BUILD • AUTOMATE • SCALE
 
-## 🚀 Project Structure
+A modern, component-based portfolio platform documenting practical AWS, AI, and cloud architecture solutions. This website serves as the publishing platform for Cloud Architect Lab case studies, engineering notes, and reusable cloud architecture patterns.
 
-Inside of your Astro project, you'll see the following folders and files:
+⸻
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
-```
+Executive Summary
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+Cloud Architect Lab is a long-term portfolio project designed to demonstrate practical cloud engineering skills through documented case studies, Infrastructure as Code, and technical architecture.
 
-## 🧞 Commands
+Rather than serving as a personal blog, the site is built as a professional engineering platform that showcases cloud solutions, design decisions, implementation details, and lessons learned from hands-on projects.
 
-All commands are run from the root of the project, from a terminal:
+The platform itself is also a portfolio project, demonstrating modern web development, component-based architecture, Git workflows, continuous deployment, and cloud hosting.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+⸻
 
-## 👀 Want to learn more?
+Architecture Overview
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Developer
+    │
+    ▼
+Local Development (VS Code + Astro)
+    │
+    ▼
+Git
+    │
+    ▼
+GitHub
+    │
+    ▼
+Cloudflare Pages
+    │
+    ▼
+cloudarchitectlab.com
+
+⸻
+
+Technology Stack
+
+* Astro
+* Cloudflare Pages
+* GitHub
+* Git
+* Node.js
+* Visual Studio Code
+
+Additional technologies will be introduced as the platform evolves, including Terraform, AWS services, Mermaid diagrams, and automated workflows.
+
+⸻
+
+Current Status
+
+Current Release: v0.1.0
+
+Completed:
+
+* Astro project foundation
+* Component-based architecture
+* Reusable layout
+* Hero component
+* Global styling
+* Initial branding
+* Cloudflare Pages deployment
+* Custom domain configuration
+
+⸻
+
+Roadmap
+
+v0.2.0
+
+* Component library
+* Case Study cards
+* Button system
+* Section components
+
+v0.3.0
+
+* Case Study framework
+* Engineering Notes
+* Markdown content
+
+v1.0.0
+
+Public launch featuring documented cloud architecture case studies, engineering notes, and reusable project templates.
+
+⸻
+
+Lessons Learned
+
+This project demonstrates that building the platform is itself an engineering exercise. By using reusable layouts, components, Git version control, and automated deployment, the website follows the same architectural principles applied throughout Cloud Architect Lab’s technical projects.
+
+⸻
+
+License
+
+This repository is intended as a public portfolio and learning resource.
