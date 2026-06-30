@@ -1,0 +1,32 @@
+---
+const {
+  id,
+  title,
+  category,
+  level,
+  technologies = [],
+  description
+} = Astro.props;
+---
+
+<div class="case-card">
+
+  <p class="case-id">{id}</p>
+
+  <h3>{title}</h3>
+
+  <p class="case-category">{category}</p>
+
+  <div class="badge-row">
+    <span>{level}</span>
+
+    {technologies.map((tech) => (
+      <span>{tech}</span>
+    ))}
+  </div>
+
+  <p>{description}</p>
+
+  <a href="#">Read Case Study →</a>
+
+</div>

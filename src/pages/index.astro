@@ -1,18 +1,14 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import Hero from "../components/Hero.astro";
+import Mission from "../components/Mission.astro";
+import FeaturedCaseStudies from "../components/FeaturedCaseStudies.astro";
 ---
 
 <Layout title="Cloud Architect Lab">
-  <section>
-    <p>BUILD • AUTOMATE • SCALE</p>
+  <Hero />
 
-    <h1>Building practical AWS, AI, and cloud architecture solutions.</h1>
+  <Mission />
 
-    <p>
-      A technical portfolio documenting cloud engineering projects,
-      architecture patterns, Infrastructure as Code, and applied AI solutions.
-    </p>
-
-    <a href="/case-studies">View Case Studies</a>
-  </section>
+  <FeaturedCaseStudies />
 </Layout>
