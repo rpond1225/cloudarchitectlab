@@ -1,0 +1,5 @@
+flowchart LR
+    User[User] --> CloudFront
+    CloudFront --> S3[S3 Static Website]
+    S3 --> GitHub[GitHub Repo]
+    GitHub --> Actions[GitHub Actions CI/CD]
