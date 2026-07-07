@@ -1,0 +1,51 @@
+---
+import Layout from "./Layout.astro";
+
+const {
+  title,
+  id,
+  category,
+  level,
+  status = "Draft"
+} = Astro.props;
+---
+
+<Layout title={`${title} | Cloud Architect Lab`}>
+  <section class="case-study">
+
+    <div class="case-header">
+
+      <p class="case-id">{id}</p>
+
+      <h1>{title}</h1>
+
+      <p class="case-philosophy">
+        Infrastructure as Code.<br />
+        Architecture as Code.
+      </p>
+
+      <div class="case-details">
+
+        <div>
+          <span>Domain</span>
+          <strong>{category}</strong>
+        </div>
+
+        <div>
+          <span>Complexity</span>
+          <strong>{level}</strong>
+        </div>
+
+        <div>
+          <span>Status</span>
+          <strong>{status}</strong>
+        </div>
+
+      </div>
+
+    </div>
+
+    <slot />
+
+  </section>
+</Layout>

@@ -2,15 +2,25 @@
 import CaseStudyCard from "./CaseStudyCard.astro";
 ---
 
-<section>
-  <h2>Featured Case Studies</h2>
+<section class="featured-case-studies">
+  <p>CASE STUDIES</p>
+
+  <h2>Featured Architecture</h2>
+
+  <p>
+    Every Cloud Architect Lab case study is designed, implemented,
+    documented, and validated as a reusable engineering reference.
+    Each project explains the architectural decisions, implementation
+    approach, and technical reasoning behind the solution.
+  </p>
 
   <CaseStudyCard
-    id="CAL-000"
-    title="Cloud Architect Lab Platform"
-    category="Platform"
-    level="Level 1"
-    technologies={["Astro", "Cloudflare", "GitHub"]}
-    description="Design and implementation of the Cloud Architect Lab website, deployment pipeline, branding, and documentation platform."
+    id="CAL-001"
+    title="AWS Networking Foundations"
+    category="Cloud Networking"
+    level="Foundational"
+    technologies={["AWS", "Terraform", "VPC", "Mermaid"]}
+    description="A foundational AWS networking case study focused on VPC design, public and private subnets, routing, Infrastructure as Code, and Architecture as Code."
+    href="/case-studies/aws-networking-foundations"
   />
 </section>

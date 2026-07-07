@@ -4,6 +4,11 @@
   --orange: #ff9900;
   --gray: #64748b;
   --light: #f8fafc;
+  --white: #ffffff;
+  --border: #e2e8f0;
+
+  --content-width: 1120px;
+  --reading-width: 760px;
 }
 
 * {
@@ -17,13 +22,28 @@ body {
   background: var(--light);
 }
 
+a {
+  color: var(--blue);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1120px;
+  max-width: var(--content-width);
   margin: 0 auto;
   padding: 24px;
+}
+
+.brand {
+  color: var(--navy);
+  font-weight: 800;
+  letter-spacing: -0.03em;
 }
 
 nav {
@@ -31,39 +51,70 @@ nav {
   gap: 24px;
 }
 
-a {
+nav a {
+  color: var(--gray);
+  font-weight: 600;
+}
+
+nav a:hover {
   color: var(--navy);
-  text-decoration: none;
 }
 
 main {
-  max-width: 1120px;
+  max-width: var(--content-width);
   margin: 0 auto;
-  padding: 96px 24px;
+  padding: 72px 24px;
 }
 
 section {
-  max-width: 760px;
+  max-width: var(--reading-width);
+  margin-bottom: 72px;
 }
 
-section p:first-child {
-  color: var(--orange);
-  font-weight: 700;
-  letter-spacing: 0.12em;
+h1,
+h2,
+h3 {
+  color: var(--navy);
+  line-height: 1.15;
+  letter-spacing: -0.03em;
 }
 
 h1 {
-  font-size: clamp(2.5rem, 6vw, 5rem);
-  line-height: 1;
+  font-size: clamp(2.75rem, 6vw, 5rem);
   margin: 16px 0 24px;
 }
 
-section p {
-  color: var(--gray);
-  font-size: 1.25rem;
-  line-height: 1.7;
+h2 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  margin: 0 0 24px;
 }
 
+h3 {
+  font-size: 1.35rem;
+  margin: 32px 0 12px;
+}
+
+p,
+li {
+  color: var(--gray);
+  font-size: 1.1rem;
+  line-height: 1.75;
+}
+
+ul {
+  padding-left: 1.25rem;
+}
+
+li + li {
+  margin-top: 0.75rem;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.button,
 section a {
   display: inline-block;
   margin-top: 24px;
@@ -73,15 +124,180 @@ section a {
   border-radius: 999px;
   font-weight: 700;
 }
+
+.button:hover,
+section a:hover {
+  background: var(--blue);
+  text-decoration: none;
+}
+
 footer {
-  max-width: 1120px;
+  max-width: var(--content-width);
   margin: 0 auto;
   padding: 48px 24px;
   color: var(--gray);
   font-size: 0.875rem;
 }
 
-.brand {
-  font-weight: 800;
-  letter-spacing: -0.03em;
+.hero-tagline {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--orange);
+  margin: 0 0 2rem;
+  line-height: 1.4;
+}
+
+.case-header {
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 4rem;
+  padding-bottom: 2rem;
+}
+
+.case-id {
+  color: var(--orange);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.case-details {
+  display: flex;
+  gap: 3rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+.case-details div {
+  display: flex;
+  flex-direction: column;
+}
+
+.case-details span {
+  font-size: 0.8rem;
+  color: var(--gray);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.case-details strong {
+  margin-top: 0.35rem;
+  font-size: 1rem;
+  color: var(--navy);
+}
+
+.case-philosophy {
+  color: var(--orange);
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.5;
+  margin: 1.5rem 0 2rem;
+}
+
+.case-study {
+  max-width: var(--reading-width);
+}
+
+.case-study section {
+  max-width: 100%;
+  margin-bottom: 4.5rem;
+}
+
+.case-study section + section {
+  border-top: 1px solid var(--border);
+  padding-top: 3rem;
+}
+
+.case-study img {
+  margin-top: 2rem;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--white);
+  padding: 1rem;
+}
+
+.case-study ul {
+  margin-top: 1rem;
+}
+
+.case-study h2 {
+  font-size: 2rem;
+}
+
+.case-study h3 {
+  margin-top: 2.25rem;
+}
+
+.architecture-diagram {
+  margin: 3rem 0;
+}
+
+.architecture-diagram img {
+  display: block;
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: white;
+  padding: 1.5rem;
+}
+
+.architecture-diagram figcaption {
+  margin-top: 1rem;
+  color: var(--gray);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.case-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 2.5rem;
+  margin-top: 2rem;
+}
+
+.case-card hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2rem 0;
+}
+
+.card-meta {
+  display: flex;
+  gap: 3rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.card-meta div {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-meta span,
+.card-tech span {
+  color: var(--gray);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.35rem;
+}
+
+.card-meta strong {
+  color: var(--navy);
+  font-size: 1rem;
+}
+
+.card-tech {
+  margin-top: 1.5rem;
+}
+
+.card-tech p {
+  margin-top: 0.5rem;
+}
+
+.card-description {
+  margin: 2rem 0;
 }
