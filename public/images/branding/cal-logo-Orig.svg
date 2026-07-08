@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300">
+  <rect width="100%" height="100%" fill="white"/>
+
+  <!-- CAL Monogram -->
+  <g stroke="#0D1B2A" stroke-width="18" fill="none" stroke-linecap="square" stroke-linejoin="miter">
+    <!-- C -->
+    <path d="M180,60
+             A90,90 0 1 0 180,240" />
+    <!-- A -->
+    <path d="M300,240 L390,60 L480,240"/>
+    <path d="M335,185 L445,185"/>
+    <!-- L -->
+    <path d="M500,60 L500,240 L640,240"/>
+  </g>
+
+  <!-- Orange accent -->
+  <polygon points="640,222 705,222 690,240 625,240" fill="#FF8C00"/>
+
+  <!-- Wordmark -->
+  <text x="360" y="285"
+        font-family="Arial, Helvetica, sans-serif"
+        font-size="34"
+        letter-spacing="8"
+        fill="#0D1B2A"
+        text-anchor="middle">CLOUD ARCHITECT LAB</text>
+</svg>
