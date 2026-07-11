@@ -103,11 +103,11 @@ import CaseStudyLayout from "../../layouts/CaseStudyLayout.astro";
   </p>
 
   <p>
-    The network is divided into public and private subnets. Public subnets are
-    intended for resources that require direct internet access, such as public
-    entry points or bastion-style access patterns. Private subnets are intended
-    for internal application components that should not be directly reachable
-    from the internet.
+    The network is divided into public and private subnets. Their routing
+    behavior—not their names—determines their network reachability. The public
+    subnet is associated with a route table that directs default traffic to the
+    Internet Gateway, while the private subnet is associated with a route table
+    that contains only the VPC local route.
   </p>
 
   <p>
@@ -130,23 +130,32 @@ import CaseStudyLayout from "../../layouts/CaseStudyLayout.astro";
   <h2>Routing Architecture</h2>
 
   <p>
-    The network uses dedicated route tables for the public and private subnets.
-    The public route table includes a default route to the Internet Gateway,
-    allowing resources in the public subnet to reach external destinations when
-    their resource-level configuration also permits that traffic.
+    The public and private subnets are explicitly associated with separate
+    route tables. Both route tables contain the AWS-provided local route for
+    the VPC CIDR, allowing permitted communication between resources inside
+    the VPC.
   </p>
 
   <p>
-    The private route table remains limited to local VPC routing at this stage
-    of the case study. This keeps the private subnet isolated from direct
-    internet access while establishing a foundation for a future NAT Gateway or
-    other controlled egress design.
+    The public route table also contains a default route
+    (<code>0.0.0.0/0</code>) whose target is the Internet Gateway. This route
+    gives resources in the public subnet a path to external IPv4 destinations
+    when public addressing and resource-level security controls are also
+    configured appropriately.
   </p>
 
   <p>
-    This separation demonstrates an important AWS networking principle: subnets
-    define network boundaries, while route tables determine where traffic can be
-    directed.
+    The private route table intentionally contains no default route to the
+    Internet Gateway. Resources placed in the private subnet therefore have no
+    direct internet path while retaining internal VPC connectivity through the
+    local route.
+  </p>
+
+  <p>
+    This separation demonstrates an important AWS networking principle:
+    subnets define network boundaries, while route tables determine where
+    traffic can be directed. Security groups then determine whether that
+    traffic is permitted at the resource level.
   </p>
 </section>
 
@@ -230,11 +239,11 @@ import CaseStudyLayout from "../../layouts/CaseStudyLayout.astro";
   <h3>Architecture as Code</h3>
 
   <p>
-    Architecture diagrams, implementation notes, and design decisions are
-    maintained alongside the infrastructure code. Treating documentation as a
-    first-class deliverable improves maintainability, knowledge transfer, and
-    reproducibility while providing clear insight into the reasoning behind the
-    implementation.
+    Architecture diagrams are maintained as version-controlled Mermaid source
+    and rendered into reusable SVG assets. Supporting implementation notes and
+    design decisions are maintained as Markdown documentation alongside the
+    Terraform code, keeping the complete engineering record synchronized with
+    the infrastructure.
   </p>
 </section>
 
@@ -284,10 +293,11 @@ import CaseStudyLayout from "../../layouts/CaseStudyLayout.astro";
 
   <h3>4. Configure Route Tables</h3>
   <p>
-    Route tables control how traffic flows inside the VPC and toward external
-    destinations. The public route table includes a default route to the
-    Internet Gateway, while private routing remains isolated.
-  </p>
+  Each subnet is explicitly associated with its intended route table. Both
+  route tables retain the VPC local route, while only the public route table
+  includes a default route to the Internet Gateway. This creates distinct
+  routing behavior without preventing permitted communication inside the VPC.
+</p>
 
   <h3>5. Apply Security Controls</h3>
   <p>
@@ -359,6 +369,11 @@ import CaseStudyLayout from "../../layouts/CaseStudyLayout.astro";
     <li>
       Small architectural decisions made early in a project can significantly
       influence future scalability, security, and operational simplicity.
+    </li>
+    <li>
+      A subnet becomes public through its route-table association and a default
+      route to an Internet Gateway; the subnet name alone does not determine its
+      reachability.
     </li>
   </ul>
 </section>
