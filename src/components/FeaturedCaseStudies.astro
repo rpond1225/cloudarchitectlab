@@ -14,13 +14,18 @@ import CaseStudyCard from "./CaseStudyCard.astro";
     approach, and technical reasoning behind the solution.
   </p>
 
-  <CaseStudyCard
+   <CaseStudyCard
     id="CAL-001"
     title="AWS Networking Foundations"
     category="Cloud Networking"
-    level="Foundational"
-    technologies={["AWS", "Terraform", "VPC", "Mermaid"]}
-    description="A foundational AWS networking case study focused on VPC design, public and private subnets, routing, Infrastructure as Code, and Architecture as Code."
+    complexity="Foundational"
+    status="Completed"
+    philosophy={[
+      "Infrastructure as Code.",
+      "Architecture as Code."
+    ]}
+    technologies={["AWS", "Terraform", "Amazon VPC", "Mermaid"]}
+    description="Builds a production-inspired AWS networking foundation using Terraform, demonstrating secure VPC design, reusable infrastructure patterns, validation-first engineering, and Architecture as Code."
     href="/case-studies/aws-networking-foundations"
   />
 </section>
