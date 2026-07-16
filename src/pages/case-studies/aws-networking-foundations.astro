@@ -9,510 +9,245 @@ import CaseStudyLayout from "../../layouts/CaseStudyLayout.astro";
   level="Level 1"
 >
   <section>
-  <h2>Overview</h2>
+    <h2>Overview</h2>
 
-  <p>
-    This case study documents the design, implementation, and validation of a
-    foundational AWS networking environment built with Terraform. The solution
-    establishes a dedicated Amazon VPC with public and private subnets,
-    intentional routing boundaries, internet connectivity for the public tier,
-    and resource-level security controls.
-  </p>
+    <p>
+      CAL-001 establishes the networking foundation for the Cloud Architect Lab
+      portfolio.
+    </p>
 
-  <p>
-    The project demonstrates a repeatable cloud architecture workflow that
-    combines Infrastructure as Code, Architecture as Code, technical
-    documentation, validation evidence, and version-controlled engineering
-    decisions.
-  </p>
-</section>
+    <p>
+      This case study demonstrates the design, implementation, validation, and
+      documentation of a production-inspired Amazon Virtual Private Cloud using
+      Terraform. The current implementation focuses on foundational networking
+      rather than application workloads.
+    </p>
+  </section>
 
   <section>
-  <h2>Current Project Status</h2>
+    <h2>Architecture Overview</h2>
 
-  <p>
-    <strong>Current Published Milestone:</strong> CAL-001.02 — Route Tables
-  </p>
+    <p>
+      The deployed environment uses a dedicated VPC in
+      <code>us-east-1</code>, with separate public and private subnets in
+      <code>us-east-1a</code>.
+    </p>
 
-  <p>
-    The VPC, public and private subnets, Internet Gateway, route tables, explicit
-    subnet associations, and foundational security groups have been implemented
-    through Terraform.
-  </p>
+    <p>
+      The public subnet has a default route to an Internet Gateway. The private
+      subnet has only the local VPC route and therefore has no direct internet
+      path.
+    </p>
 
-  <p>
-    This case study is published progressively so each architectural concept can
-    be explained and validated independently. The current milestone focuses on
-    routing behavior and the distinction between public and private network
-    tiers, while the repository may contain supporting components required for
-    the complete deployed environment.
-  </p>
-</section>
+    <img
+      src="/diagrams/aws-networking-foundations.svg"
+      alt="CAL-001 AWS networking architecture showing an AWS account, Region, VPC, public and private subnets, route tables, Internet Gateway, and security groups"
+    />
+  </section>
+
+  <section>
+    <h2>Current Deployment</h2>
+
+    <ul>
+      <li>Amazon VPC: <code>10.10.0.0/16</code></li>
+      <li>Availability Zone: <code>us-east-1a</code></li>
+      <li>Public subnet: <code>10.10.1.0/24</code></li>
+      <li>Private subnet: <code>10.10.11.0/24</code></li>
+      <li>Internet Gateway</li>
+      <li>Public route table</li>
+      <li>Private route table</li>
+      <li>Explicit route-table associations</li>
+      <li>Public Web Security Group</li>
+      <li>Private Application Security Group</li>
+    </ul>
+
+    <p>
+      No load balancer, NAT Gateway, EC2 instance, or other compute workload is
+      currently deployed.
+    </p>
+  </section>
+
+  <section>
+    <h2>Routing Design</h2>
+
+    <h3>Public Subnet</h3>
+
+    <ul>
+      <li><code>10.10.0.0/16</code> routes locally within the VPC.</li>
+      <li><code>0.0.0.0/0</code> routes through the Internet Gateway.</li>
+    </ul>
+
+    <h3>Private Subnet</h3>
+
+    <ul>
+      <li><code>10.10.0.0/16</code> routes locally within the VPC.</li>
+      <li>No default route to the Internet Gateway is configured.</li>
+    </ul>
+
+    <p>
+      The subnet names describe their intended role, but their route-table
+      associations determine their actual network reachability.
+    </p>
+  </section>
+
+  <section>
+    <h2>Security Design</h2>
+
+    <h3>Public Web Security Group</h3>
+
+    <ul>
+      <li>HTTP on TCP port 80 from the internet</li>
+      <li>HTTPS on TCP port 443 from the internet</li>
+      <li>SSH on TCP port 22 from a trusted administrator CIDR</li>
+      <li>All outbound traffic allowed</li>
+    </ul>
+
+    <h3>Private Application Security Group</h3>
+
+    <ul>
+      <li>
+        TCP port 8080 allowed only from the Public Web Security Group
+      </li>
+      <li>All outbound traffic allowed</li>
+    </ul>
+
+    <p>
+      Referencing the public security group instead of an IP range establishes
+      a reusable trust relationship between future public and private
+      application tiers.
+    </p>
+  </section>
 
   <section>
     <h2>Business Scenario</h2>
 
     <p>
-      A mid-sized organization is establishing its first AWS networking foundation
-      to support modern cloud-hosted applications. The initial requirement is to
-      create a secure, scalable network design that separates internet-facing
-      services from internal workloads while leaving room for future growth.
+      A growing organization needs a repeatable AWS networking foundation that
+      can support internet-facing and internal application workloads while
+      preserving clear routing and security boundaries.
     </p>
 
     <p>
-      The environment must follow cloud architecture best practices, be fully
-      documented, and be deployable through Infrastructure as Code (IaC) so it can
-      be repeated consistently across future development, testing, and production
-      environments.
+      The environment must be reproducible through Infrastructure as Code,
+      suitable for incremental expansion, and documented clearly enough for
+      engineering review and portfolio presentation.
     </p>
-
   </section>
 
   <section>
-  <h2>Requirements</h2>
+    <h2>Technical Highlights</h2>
 
-  <h3>Business Requirements</h3>
-  <p>The networking foundation must:</p>
-  <ul>
-    <li>Support both internet-facing and internal application workloads.</li>
-    <li>Separate public and private resources to improve security.</li>
-    <li>Be scalable to accommodate future environments such as development, testing, and production.</li>
-    <li>Be reproducible through Infrastructure as Code (IaC).</li>
-    <li>Follow AWS networking best practices.</li>
-    <li>Provide a maintainable foundation for future cloud services.</li>
-  </ul>
+    <ul>
+      <li>Terraform-managed AWS networking infrastructure</li>
+      <li>Custom Amazon VPC</li>
+      <li>Public and private subnet segmentation</li>
+      <li>Internet Gateway and public default route</li>
+      <li>Dedicated public and private route tables</li>
+      <li>Explicit subnet-to-route-table associations</li>
+      <li>Security-group references between network tiers</li>
+      <li>
+        Terraform structure designed for future multi-Availability Zone
+        expansion using <code>for_each</code>
+      </li>
+      <li>Version-controlled Mermaid architecture diagrams</li>
+      <li>Documented deployment, validation, and engineering decisions</li>
+    </ul>
+  </section>
 
-  <h3>Technical Requirements</h3>
-  <p>The solution must include:</p>
-  <ul>
-    <li>A dedicated Amazon VPC.</li>
-    <li>Public and private subnets.</li>
-    <li>Route tables for controlled traffic flow.</li>
-    <li>An Internet Gateway for public internet access.</li>
-    <li>Security groups to control inbound and outbound traffic.</li>
-    <li>CIDR planning that allows future network expansion.</li>
-    <li>Deployment using Terraform.</li>
-    <li>Documentation that clearly explains both the implementation and the architectural decisions.</li>
-  </ul>
+  <section>
+    <h2>Validation</h2>
 
-  <h3>Constraints and Assumptions</h3>
-  <p>For this foundational case study:</p>
-  <ul>
-    <li>The environment is deployed within a single AWS Region.</li>
-    <li>IPv4 addressing is used throughout the implementation.</li>
-    <li>Cost optimization is considered by limiting resources to those required for learning and validation.</li>
-    <li>The environment is intended as a clean-room demonstration rather than a production deployment.</li>
-    <li>Resources can be safely destroyed and recreated through Terraform as needed.</li>
-  </ul>
-</section>
+    <p>
+      The deployed environment was validated through:
+    </p>
 
-<section>
-  <h2>Architecture Overview</h2>
+    <ul>
+      <li><code>terraform fmt</code></li>
+      <li><code>terraform validate</code></li>
+      <li>Terraform execution-plan review</li>
+      <li>Successful Terraform deployment</li>
+      <li>Terraform state verification</li>
+      <li>AWS Management Console verification</li>
+      <li>Comparison of the deployed resources with the architecture diagram</li>
+    </ul>
+  </section>
 
-  <p>
-    This architecture establishes a dedicated Amazon VPC as the networking
-    foundation for cloud-hosted workloads. The VPC provides an isolated network
-    boundary where subnets, routing, and security controls can be designed
-    intentionally rather than relying on default AWS networking resources.
-  </p>
+  <section>
+    <h2>Implementation Evidence</h2>
 
-  <p>
-    The network is divided into public and private subnets. Their routing
-    behavior—not their names—determines their network reachability. The public
-    subnet is associated with a route table that directs default traffic to the
-    Internet Gateway, while the private subnet is associated with a route table
-    that contains only the VPC local route.
-  </p>
+    <figure>
+      <img
+        src="/images/case-studies/cal-001/vpc-overview.png"
+        alt="AWS VPC overview showing the deployed CAL-001 networking resources"
+      />
+      <figcaption>
+        Deployed VPC, subnets, and networking resources.
+      </figcaption>
+    </figure>
 
-  <p>
-    An Internet Gateway is attached to the VPC to support internet connectivity
-    for the public subnet. Route tables are used to control how traffic moves
-    between the subnets, the VPC, and the internet. Security groups provide an
-    additional layer of traffic control at the resource level.
-  </p>
+    <figure>
+      <img
+        src="/images/case-studies/cal-001/public-route-table.png"
+        alt="AWS public route table showing a default route to the Internet Gateway"
+      />
+      <figcaption>
+        Public route table with a <code>0.0.0.0/0</code> route to the Internet
+        Gateway.
+      </figcaption>
+    </figure>
 
-  <p>
-    The environment is deployed with Terraform so the network can be created,
-    reviewed, destroyed, and recreated consistently. This supports repeatable
-    deployments and provides a documented foundation for future enhancements
-    such as NAT Gateways, multi-AZ expansion, VPC peering, and additional
-    workload tiers.
-  </p>
-</section>
+    <figure>
+      <img
+        src="/images/case-studies/cal-001/private-route-table.png"
+        alt="AWS private route table showing local VPC routing without an internet default route"
+      />
+      <figcaption>
+        Private route table with no direct route to the Internet Gateway.
+      </figcaption>
+    </figure>
+  </section>
 
-<section>
-  <h2>Routing Architecture</h2>
+  <section>
+    <h2>Key Engineering Decisions</h2>
 
-  <p>
-    The public and private subnets are explicitly associated with separate
-    route tables. Both route tables contain the AWS-provided local route for
-    the VPC CIDR, allowing permitted communication between resources inside
-    the VPC.
-  </p>
+    <ul>
+      <li>Build a dedicated VPC instead of using the AWS default VPC.</li>
+      <li>Deploy networking infrastructure before application workloads.</li>
+      <li>Separate public and private network tiers from the beginning.</li>
+      <li>Use dedicated route tables for public and private subnets.</li>
+      <li>Use security-group references instead of IP-based trust between tiers.</li>
+      <li>Maintain infrastructure and architecture artifacts in version control.</li>
+      <li>Build and validate the environment through incremental milestones.</li>
+    </ul>
+  </section>
 
-  <p>
-    The public route table also contains a default route
-    (<code>0.0.0.0/0</code>) whose target is the Internet Gateway. This route
-    gives resources in the public subnet a path to external IPv4 destinations
-    when public addressing and resource-level security controls are also
-    configured appropriately.
-  </p>
+  <section>
+    <h2>Technology Stack</h2>
 
-  <p>
-    The private route table intentionally contains no default route to the
-    Internet Gateway. Resources placed in the private subnet therefore have no
-    direct internet path while retaining internal VPC connectivity through the
-    local route.
-  </p>
+    <ul>
+      <li>Amazon Web Services</li>
+      <li>Amazon VPC</li>
+      <li>Internet Gateway</li>
+      <li>Route Tables</li>
+      <li>Security Groups</li>
+      <li>Terraform</li>
+      <li>Mermaid</li>
+      <li>Git and GitHub</li>
+      <li>Astro</li>
+    </ul>
+  </section>
 
-  <p>
-    This separation demonstrates an important AWS networking principle:
-    subnets define network boundaries, while route tables determine where
-    traffic can be directed. Security groups then determine whether that
-    traffic is permitted at the resource level.
-  </p>
-</section>
+  <section>
+    <h2>Future Enhancements</h2>
 
-<section>
-  <h2>Technology Stack</h2>
-
-  <p>
-    This case study uses a focused set of cloud, infrastructure, documentation,
-    and development tools to support a repeatable architecture workflow.
-  </p>
-
-  <ul>
-    <li>
-      <strong>Amazon Web Services:</strong> Provides the cloud networking
-      services used in the architecture, including VPCs, subnets, route tables,
-      Internet Gateways, and security groups.
-    </li>
-    <li>
-      <strong>Terraform:</strong> Defines and deploys the networking resources
-      as Infrastructure as Code.
-    </li>
-    <li>
-      <strong>Mermaid:</strong> Creates architecture diagrams that can be stored
-      and version-controlled alongside the documentation.
-    </li>
-    <li>
-      <strong>Git and GitHub:</strong> Track changes to the infrastructure code,
-      documentation, diagrams, and website content.
-    </li>
-    <li>
-      <strong>Visual Studio Code:</strong> Serves as the local development
-      environment for editing Terraform, Markdown, Astro, and Mermaid files.
-    </li>
-    <li>
-      <strong>Astro:</strong> Powers the Cloud Architect Lab website where the
-      case study is published.
-    </li>
-  </ul>
-</section>
-
-<section>
-  <h2>Skills Demonstrated</h2>
-
-  <ul>
-    <li>Amazon VPC architecture and IPv4 CIDR planning.</li>
-    <li>Public and private subnet design.</li>
-    <li>Internet Gateway configuration and routing.</li>
-    <li>Explicit route-table and subnet associations.</li>
-    <li>Resource-level traffic control with security groups.</li>
-    <li>Terraform-based infrastructure provisioning.</li>
-    <li>Version-controlled architecture diagrams and documentation.</li>
-    <li>Cloud infrastructure validation and evidence collection.</li>
-    <li>Architecture decision documentation using ADRs.</li>
-    <li>Git-based change management and milestone delivery.</li>
-  </ul>
-</section>
-
-<section>
-  <h2>Key Design Decisions</h2>
-
-  <h3>Building a Dedicated VPC</h3>
-
-  <p>
-    Rather than modifying the default AWS VPC, this architecture creates a
-    dedicated Virtual Private Cloud. A dedicated VPC provides complete control
-    over IP addressing, routing, security boundaries, and future expansion while
-    avoiding dependencies on AWS default resources. This approach more closely
-    reflects enterprise cloud deployments.
-  </p>
-
-  <h3>Separating Public and Private Subnets</h3>
-
-  <p>
-    Resources requiring internet connectivity are placed in public subnets,
-    while internal workloads are isolated within private subnets. Separating
-    these network tiers reduces the attack surface and follows AWS networking
-    best practices by limiting direct internet exposure.
-  </p>
-
-  <h3>CIDR Planning</h3>
-
-  <p>
-    IP address ranges were selected to provide room for future subnet growth
-    without requiring network redesign. Thoughtful CIDR planning simplifies
-    expansion into additional Availability Zones and supports future application
-    environments such as development, testing, and production.
-  </p>
-
-  <h3>Infrastructure as Code</h3>
-
-  <p>
-    Terraform is used to define the networking infrastructure as code rather
-    than creating resources manually through the AWS Management Console. This
-    enables consistent deployments, version control, peer review, and rapid
-    recreation of the environment when changes are required.
-  </p>
-
-  <h3>Architecture as Code</h3>
-
-  <p>
-    Architecture diagrams are maintained as version-controlled Mermaid source
-    and rendered into reusable SVG assets. Supporting implementation notes and
-    design decisions are maintained as Markdown documentation alongside the
-    Terraform code, keeping the complete engineering record synchronized with
-    the infrastructure.
-  </p>
-</section>
-
-<section>
-  <h2>Network Architecture</h2>
-
-  <p>
-    The following diagram illustrates the foundational AWS networking
-    architecture implemented in this case study. It highlights the VPC
-    boundary, CIDR allocation, public and private subnet separation,
-    Internet Gateway connectivity, and routing relationships that provide
-    the basis for future expansion.
-  </p>
-
-  <img
-    src="/diagrams/aws-networking-foundations.svg"
-    alt="AWS Networking Foundations architecture diagram showing a VPC with public and private subnets, route tables, and internet gateway connectivity"
-  />
-</section>
-
-<section>
-  <h2>Implementation Walkthrough</h2>
-
-  <p>
-    The implementation follows a staged approach so each network component can
-    be understood, validated, and expanded over time.
-  </p>
-
-  <h3>1. Create the VPC</h3>
-  <p>
-    A dedicated VPC establishes the isolated network boundary for the
-    environment and defines the primary CIDR range used by the architecture.
-  </p>
-
-  <h3>2. Define Public and Private Subnets</h3>
-  <p>
-    Subnets divide the VPC address space into separate network tiers. Public
-    subnets support resources that require internet-facing connectivity, while
-    private subnets support internal workloads.
-  </p>
-
-  <h3>3. Attach the Internet Gateway</h3>
-  <p>
-    The Internet Gateway enables internet connectivity for resources in public
-    subnets when paired with the appropriate route table configuration.
-  </p>
-
-  <h3>4. Configure Route Tables</h3>
-  <p>
-  Each subnet is explicitly associated with its intended route table. Both
-  route tables retain the VPC local route, while only the public route table
-  includes a default route to the Internet Gateway. This creates distinct
-  routing behavior without preventing permitted communication inside the VPC.
-</p>
-
-  <h3>5. Apply Security Controls</h3>
-  <p>
-    Security groups provide resource-level traffic control by defining allowed
-    inbound and outbound communication patterns.
-  </p>
-
-  <h3>6. Validate the Design</h3>
-  <p>
-    The completed environment can be reviewed through Terraform output, AWS
-    console verification, and connectivity testing as additional workloads are
-    added.
-  </p>
-</section>
-
-<section>
-  <h2>Validation and Testing</h2>
-
-  <p>
-    The environment was validated through Terraform commands, Terraform output
-    values, and inspection of the deployed resources in the AWS Management
-    Console.
-  </p>
-
-  <ul>
-    <li>
-      Ran <code>terraform fmt</code> to confirm consistent Terraform formatting.
-    </li>
-    <li>
-      Ran <code>terraform validate</code> to confirm the configuration was
-      syntactically valid and internally consistent.
-    </li>
-    <li>
-      Reviewed the Terraform execution plan before deployment.
-    </li>
-    <li>
-      Completed the Terraform deployment without resource-creation errors.
-    </li>
-    <li>
-      Confirmed the VPC and subnet CIDR ranges matched the documented design.
-    </li>
-    <li>
-      Verified the Internet Gateway was attached to the intended VPC.
-    </li>
-    <li>
-      Confirmed the public subnet was associated with the public route table.
-    </li>
-    <li>
-      Confirmed the private subnet was associated with the private route table.
-    </li>
-    <li>
-      Verified the public route table contained a
-      <code>0.0.0.0/0</code> route targeting the Internet Gateway.
-    </li>
-    <li>
-      Verified the private route table contained no direct default route to the
-      Internet Gateway.
-    </li>
-    <li>
-      Reviewed Terraform outputs and AWS resource details to confirm the
-      deployed topology matched the architecture documentation.
-    </li>
-  </ul>
-
-  <p>
-    End-to-end workload connectivity testing will be added when EC2 or other
-    application resources are introduced in a later milestone.
-  </p>
-</section>
-
-<section>
-  <h2>Implementation Evidence</h2>
-
-  <p>
-    The following screenshots provide visual confirmation that the deployed AWS
-    environment matches the documented architecture and routing design.
-  </p>
-
-  <figure>
-    <img
-      src="/images/case-studies/cal-001/vpc-overview.png"
-      alt="AWS VPC overview showing the deployed networking foundation for CAL-001"
-    />
-    <figcaption>
-      Deployed VPC and subnet resources for the AWS Networking Foundations case
-      study.
-    </figcaption>
-  </figure>
-
-  <figure>
-    <img
-      src="/images/case-studies/cal-001/public-route-table.png"
-      alt="AWS public route table showing a default route to the Internet Gateway"
-    />
-    <figcaption>
-      Public route table with a <code>0.0.0.0/0</code> route targeting the
-      Internet Gateway.
-    </figcaption>
-  </figure>
-
-  <figure>
-    <img
-      src="/images/case-studies/cal-001/private-route-table.png"
-      alt="AWS private route table showing only internal VPC routing"
-    />
-    <figcaption>
-      Private route table without a direct default route to the Internet Gateway.
-    </figcaption>
-  </figure>
-</section>
-
-<section>
-  <h2>Lessons Learned</h2>
-
-  <p>
-    Building this networking foundation reinforced that successful cloud
-    architecture depends as much on thoughtful planning as it does on technical
-    implementation. Designing the network before deploying resources resulted
-    in a cleaner, more scalable architecture and highlighted the importance of
-    making intentional design decisions early in the project lifecycle.
-  </p>
-
-  <ul>
-    <li>
-      Careful CIDR planning simplifies future expansion and helps avoid
-      unnecessary network redesign.
-    </li>
-
-    <li>
-      Public and private subnet separation provides a clear security boundary
-      and establishes a foundation for layered network security.
-    </li>
-
-    <li>
-      Infrastructure as Code makes cloud environments repeatable, consistent,
-      and significantly easier to maintain than manual deployments.
-    </li>
-
-    <li>
-      Architecture diagrams and documentation are valuable engineering assets,
-      not simply project deliverables. Keeping them synchronized with the
-      infrastructure improves maintainability and communication.
-    </li>
-
-    <li>
-      Small architectural decisions made early in a project can significantly
-      influence future scalability, security, and operational simplicity.
-    </li>
-    <li>
-      A subnet becomes public through its route-table association and a default
-      route to an Internet Gateway; the subnet name alone does not determine its
-      reachability.
-    </li>
-  </ul>
-</section>
-
-<section>
-  <h2>Future Enhancements</h2>
-
-  <p>
-    Future milestones will extend this networking foundation while preserving
-    the same Infrastructure as Code, documentation, and validation workflow.
-  </p>
-
-  <ul>
-    <li>
-      Expand the design across multiple Availability Zones for improved
-      resilience.
-    </li>
-    <li>
-      Add NAT Gateway connectivity for controlled outbound access from private
-      subnets.
-    </li>
-    <li>
-      Deploy EC2 workloads to validate public and private subnet connectivity.
-    </li>
-    <li>
-      Add VPC Flow Logs and supporting monitoring controls.
-    </li>
-    <li>
-      Strengthen security-group design around specific application traffic
-      patterns.
-    </li>
-  </ul>
-</section>
-
+    <ul>
+      <li>Multi-Availability Zone expansion</li>
+      <li>NAT Gateway for private-subnet outbound access</li>
+      <li>Application Load Balancer</li>
+      <li>Public and private EC2 workloads</li>
+      <li>Auto Scaling</li>
+      <li>VPC Flow Logs</li>
+      <li>VPC peering and more advanced connectivity patterns</li>
+    </ul>
+  </section>
 </CaseStudyLayout>
